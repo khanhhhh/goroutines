@@ -38,7 +38,7 @@ public:
     _goroutine_send_channel(m_chan, (GoUintptr)item);
   }
   void* Recv() {
-    _goroutine_recv_channel(m_chan);
+    return (void*)_goroutine_recv_channel(m_chan);
   }
 };
 #endif

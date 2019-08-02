@@ -1,32 +1,30 @@
 #include"goroutine.hh"
 #include<cstdio>
 #include<tuple>
-void adder(void* void_param) {
-  auto [ch, num] = *(std::tuple<Channel*, int>*)void_param;
-  while (true) {
-    size_t i = (size_t)ch->Recv();
-    i = i + num;
-    ch->Send((void*)i);
+
+void paddle(void* rawparam) {
+  auto [ch, id] = *(std::tuple<Channel*, int>*)rawparam;
+  if (0 == id) {
+    ch->Send(nullptr);
+  }
+  WaitGroup::Yield();
+  for (int i=0; i<5; i++) {
+    void* ptr = ch->Recv();
+    std::printf("Routine %d: received!\n", id);
+    ch->Send(ptr);
+    WaitGroup::Yield();
   }
 }
 int main() {
-  auto ch = new Channel(1);
-  ch->Send((void*)1);
-
+  auto ch = Channel(1);
   auto wg = WaitGroup();
-  {
-    std::tuple<Channel*, int> param {ch, +1};
-    wg.Go(adder, &param);
+  { // Routine 0
+    std::tuple<Channel*, int> param = {&ch, 0};
+    wg.Go(paddle, &param);
   }
-  {
-    std::tuple<Channel*, int> param {ch, -1};
-    wg.Go(adder, &param);
+  { // Routine 1
+    std::tuple<Channel*, int> param = {&ch, 1};
+    wg.Go(paddle, &param);
   }
-
-  while (true) {
-    size_t i = (size_t)ch->Recv();
-    std::printf("%d\n", i);
-    ch->Send((void*)i);
-  }
-  delete ch;
+  wg.Join();
 }
