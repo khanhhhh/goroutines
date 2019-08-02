@@ -52,4 +52,33 @@ func _goroutine_yield() {
 	runtime.Gosched()
 }
 
+//chanPool
+var chanPool = map[uintptr](*chan uintptr){}
+
+//export _goroutine_new_channel
+func _goroutine_new_channel(count int) uintptr {
+	ch := make(chan uintptr, count)
+	ptr := uintptr(unsafe.Pointer(&ch))
+	chanPool[ptr] = &ch
+	return ptr
+}
+
+//export _goroutine_del_channel
+func _goroutine_del_channel(ch uintptr) {
+	delete(chanPool, ch)
+}
+
+//export _goroutine_recv_channel
+func _goroutine_recv_channel(ch uintptr) uintptr {
+	chptr := chanPool[ch]
+	item := <-(*chptr)
+	return item
+}
+
+//export _goroutine_send_channel
+func _goroutine_send_channel(ch uintptr, item uintptr) {
+	chptr := chanPool[ch]
+	(*chptr) <- item
+}
+
 func main() {}

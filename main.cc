@@ -1,36 +1,32 @@
 #include"goroutine.hh"
 #include<cstdio>
-#include<mutex>
-int i = 0;
-using mutex = std::mutex;
-using lock = std::unique_lock<std::mutex>;
-mutex m;
-void foo(void*) {
-  for (;;) {
-    {
-      auto l = lock(m);
-      i++;
-    }
-    WaitGroup::Yield();
-  }
-}
-void bar(void*) {
-  for (;;) {
-    {
-      auto l = lock(m);
-      i--;
-    }
-    WaitGroup::Yield();
+#include<tuple>
+void adder(void* void_param) {
+  auto [ch, num] = *(std::tuple<Channel*, int>*)void_param;
+  while (true) {
+    size_t i = (size_t)ch->Recv();
+    i = i + num;
+    ch->Send((void*)i);
   }
 }
 int main() {
+  auto ch = new Channel(1);
+  ch->Send((void*)1);
+
   auto wg = WaitGroup();
-  wg.Go(foo, nullptr);
-  wg.Go(bar, nullptr);
-  for (;;) {
-    {
-      auto l = lock(m);
-      std::printf("%d\n", i);
-    }
+  {
+    std::tuple<Channel*, int> param {ch, +1};
+    wg.Go(adder, &param);
   }
+  {
+    std::tuple<Channel*, int> param {ch, -1};
+    wg.Go(adder, &param);
+  }
+
+  while (true) {
+    size_t i = (size_t)ch->Recv();
+    std::printf("%d\n", i);
+    ch->Send((void*)i);
+  }
+  delete ch;
 }

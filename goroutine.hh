@@ -24,4 +24,21 @@ public:
     _goroutine_yield();
   }
 };
+class Channel {
+private:
+  GoUintptr m_chan;
+public:
+  Channel(size_t count):
+    m_chan(_goroutine_new_channel((GoUintptr)count))
+  {}
+  ~Channel() {
+    _goroutine_del_channel(m_chan);
+  }
+  void Send(void* item) {
+    _goroutine_send_channel(m_chan, (GoUintptr)item);
+  }
+  void* Recv() {
+    _goroutine_recv_channel(m_chan);
+  }
+};
 #endif
