@@ -13,8 +13,8 @@ public:
     _goroutine_del_waitgroup(m_wg);
   }
 public:
-  void Go(void* function, void* argument) {
-    _goroutine(function, argument, m_wg);
+  void Go(void (*function)(void*), void* argument) {
+    _goroutine((void*)function, argument, m_wg);
   }
   void Join() {
     _goroutine_join_waitgroup(m_wg);

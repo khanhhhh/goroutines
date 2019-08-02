@@ -7,7 +7,7 @@ void foo(void*) {
 }
 int main() {
   auto wg = WaitGroup();
-  wg.Go((void*)foo, nullptr);
+  wg.Go(foo, nullptr);
   wg.Join();
   std::printf("Done!\n");
 }
