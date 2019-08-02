@@ -2,7 +2,14 @@
 
 Goroutine is a very lightweight way to do concurrent programming in Go.
 
-Yield added: a suggestion for scheduler, it does ensure the goroutine will yield or not.
+# FEATURES
+
+- Goroutines: Run a C functions in a goroutine.
+
+- Yeild: Provide a hint to scheduler
+
+- Channel: Channel of void pointer
+
 
 # BUILD
 
