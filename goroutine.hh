@@ -1,6 +1,7 @@
 #ifndef _GOROUTINE_HH_
 #define _GOROUTINE_HH_
 #include"libgoroutine.h"
+void _goroutine_yield();
 class WaitGroup {
 private:
   GoUintptr m_wg;
