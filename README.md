@@ -2,7 +2,7 @@
 
 Goroutine is a very lightweight way to do concurrent programming in Go.
 
-Yield hasnot been supported yet
+Yield added: a suggestion for scheduler, it does ensure the goroutine will yield or not.
 
 # BUILD
 
