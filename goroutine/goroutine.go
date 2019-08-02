@@ -7,6 +7,7 @@ package main
 */
 import "C"
 import (
+	"runtime"
 	"sync"
 	"unsafe"
 )
@@ -44,6 +45,11 @@ func _goroutine_del_waitgroup(wg uintptr) {
 //export _goroutine_join_waitgroup
 func _goroutine_join_waitgroup(wg uintptr) {
 	wgPool[wg].Wait()
+}
+
+//export _goroutine_yield
+func _goroutine_yield() {
+	runtime.Gosched()
 }
 
 func main() {}
