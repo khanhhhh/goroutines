@@ -1,6 +1,6 @@
-# GOROUTINES IN C
+# GOROUTINES IN C++
 
-Using goroutines in C
+Goroutine is a very lightweight way to do concurrent programming in Go.
 
 Yield hasnot been supported yet
 
