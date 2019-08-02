@@ -7,12 +7,12 @@ void paddle(void* rawparam) {
   if (0 == id) {
     ch->Send(nullptr);
   }
-  WaitGroup::Yield();
+  _goroutine_yield();
   for (int i=0; i<5; i++) {
     void* ptr = ch->Recv();
     std::printf("Routine %d: received!\n", id);
     ch->Send(ptr);
-    WaitGroup::Yield();
+    _goroutine_yield();
   }
 }
 int main() {

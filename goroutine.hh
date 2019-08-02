@@ -19,10 +19,6 @@ public:
   void Join() {
     _goroutine_join_waitgroup(m_wg);
   }
-public:
-  static void Yield() {
-    _goroutine_yield();
-  }
 };
 class Channel {
 private:
