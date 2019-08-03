@@ -21,6 +21,7 @@ public:
     _goroutine_join_waitgroup(m_wg);
   }
 };
+template<typename type>
 class Channel {
 private:
   GoUintptr m_chan;
@@ -31,11 +32,11 @@ public:
   ~Channel() {
     _goroutine_del_channel(m_chan);
   }
-  void Send(void* item) {
+  void Send(type* item) {
     _goroutine_send_channel(m_chan, (GoUintptr)item);
   }
-  void* Recv() {
-    return (void*)_goroutine_recv_channel(m_chan);
+  type* Recv() {
+    return (type*)_goroutine_recv_channel(m_chan);
   }
 };
 #endif
