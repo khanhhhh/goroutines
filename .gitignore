@@ -1,5 +1,2 @@
 *.swp
-*.o
-*.so
-*.out
 .vscode/*
