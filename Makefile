@@ -1,5 +1,5 @@
 all:
-	g++ -std=c++17 -I./libgoroutine -L./libgoroutine -lgoroutine ./pingpong.cc
-	LD_LIBRARY_PATH=./libgoroutine ./a.out
+	g++ -std=c++17 ./libgoroutine.so ./pingpong.cc
 clean:
+	rm -f libgoroutine.*
 	rm -f a.out
