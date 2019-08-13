@@ -56,7 +56,7 @@ func _goroutine_yield() {
 var chanPool = map[uintptr](*chan uintptr){}
 
 //export _goroutine_new_channel
-func _goroutine_new_channel(count int) uintptr {
+func _goroutine_new_channel(count uintptr) uintptr {
 	ch := make(chan uintptr, count)
 	ptr := uintptr(unsafe.Pointer(&ch))
 	chanPool[ptr] = &ch
