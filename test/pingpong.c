@@ -11,7 +11,7 @@ void paddle(void* rawparam) {
   _goroutine_yield();
   for (int i=0; i<10; i++) {
     size_t item = _goroutine_recv_channel(param.channel);
-    printf("Routine (%d): received: %d\n", param.id, item); fflush(stdout);
+    printf("Routine (%d): received: %zu\n", param.id, item); fflush(stdout);
     item += param.id;
     _goroutine_send_channel(param.channel, item);
     _goroutine_yield();
@@ -39,6 +39,6 @@ size_t item = -1;
   item = _goroutine_recv_channel(ch);
   _goroutine_del_channel(ch);
 }
-  printf("Main: received: %d\n", item);
+  printf("Main: received: %zu\n", item);
   return 0;
 }

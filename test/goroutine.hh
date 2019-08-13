@@ -39,4 +39,17 @@ public:
     return (type*)_goroutine_recv_channel(m_chan);
   }
 };
+class Defer {
+private:
+  void (*function)(void*);
+  void *argument;
+public:
+  Defer(void (*function)(void*), void* parameter):
+    function(function),
+    argument(parameter)
+  {}
+  ~Defer() {
+    function(argument);
+  }
+};
 #endif

@@ -1,4 +1,5 @@
 typedef __SIZE_TYPE__ GoUintptr;
+typedef __SIZE_TYPE__ size_t;
 #ifdef __cplusplus
 extern "C" {
 #endif
