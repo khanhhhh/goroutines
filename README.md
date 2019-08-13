@@ -24,9 +24,9 @@ The two features that the most "đáng đồng tiền bát gạo" in Golang is `
 
 - Create shared library
 
-  - `cd goroutine`
+  - `cd libgoroutine`
 
-  - `make build`
+  - `make build` : build library and C api
   
 - Compile with C++ header
 
