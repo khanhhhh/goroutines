@@ -8,7 +8,7 @@ void paddle(void* rawparam) {
   _goroutine_yield();
   for (int i=0; i<10; i++) {
     void* ptr = ch->Recv();
-    std::printf("Routine (%d): received: %d\n", id, (size_t)ptr);
+    std::printf("Routine (%d): received: %d\n", id, (size_t)ptr); std::fflush(stdout);
     ptr = (void*)((size_t)ptr + id);
     ch->Send(ptr);
     _goroutine_yield();
@@ -27,4 +27,7 @@ int main() {
     wg.Go(paddle, &args);
   }
   wg.Join();
+  void* ptr = ch.Recv();
+  std::printf("Main: received: %d\n", (size_t)ptr); std::fflush(stdout);
+  return 0;
 }
