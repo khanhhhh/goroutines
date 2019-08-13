@@ -3,7 +3,7 @@ package main
 /*
 #cgo CFLAGS: -I.
 #cgo LDFLAGS: -L.
-#include"goroutine.h"
+void _ccall(void (*function)(void*), void* argument);
 */
 import "C"
 import (
